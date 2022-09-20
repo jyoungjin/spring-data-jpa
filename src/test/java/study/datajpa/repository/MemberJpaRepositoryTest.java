@@ -62,4 +62,31 @@ class MemberJpaRepositoryTest {
         assertThat(deletedCount).isEqualTo(0);
 
     }
+
+    @Test
+    public void findByUsernameAndAgeGreaterThan(){
+        Member member1 = new Member("AAA", 10);
+        Member member2 = new Member("AAA", 20);
+        memberJpaRepository.save(member1);
+        memberJpaRepository.save(member2);
+
+        List<Member> members = memberJpaRepository.findByUsernameAndAgeGreaterThan("AAA", 15);
+
+        assertThat(members.get(0).getUsername()).isEqualTo("AAA");
+        assertThat(members.get(0).getAge()).isEqualTo(20);
+        assertThat(members.size()).isEqualTo(1);
+
+
+    }
+
+    @Test
+    public void testNamedQuery(){
+        Member member1 = new Member("AAA", 10);
+        Member member2 = new Member("BBB", 20);
+        memberJpaRepository.save(member1);
+        memberJpaRepository.save(member2);
+
+        List<Member> result = memberJpaRepository.findByUsername("AAA");
+        assertThat(result.get(0)).isEqualTo(member1);
+    }
 }
